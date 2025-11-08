@@ -8,7 +8,9 @@ import ru.job4j.domain.Person;
 import ru.job4j.repository.PersonRepository;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/person")
@@ -25,11 +27,11 @@ public class PersonController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Person> findById(@PathVariable int id) {
+    public ResponseEntity<?> findById(@PathVariable int id) {
         var person = this.persons.findById(id).orElseThrow(() -> new ResponseStatusException(
                 HttpStatus.NOT_FOUND, "Account is not found. Please, check requisites."
         ));
-        return ResponseEntity.ok(person);
+        return ResponseEntity.ok(Map.of("login", person.getLogin()));
     }
 
     @PostMapping("/")
