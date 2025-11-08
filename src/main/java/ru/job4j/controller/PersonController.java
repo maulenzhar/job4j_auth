@@ -28,7 +28,7 @@ public class PersonController {
     public ResponseEntity<Person> findById(@PathVariable int id) {
         var person = this.persons.findById(id).orElseThrow(() -> new ResponseStatusException(
                 HttpStatus.NOT_FOUND, "Account is not found. Please, check requisites."
-        ));;
+        ));
         return ResponseEntity.ok(person);
     }
 
