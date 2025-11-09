@@ -8,6 +8,7 @@ import ru.job4j.domain.Person;
 import ru.job4j.dto.PersonDTO;
 import ru.job4j.repository.PersonRepository;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -59,7 +60,7 @@ public class PersonController {
     @PatchMapping("/{id}")
     public ResponseEntity<Person> patchPerson(
             @PathVariable int id,
-            @RequestBody PersonDTO dto) {
+            @Valid @RequestBody PersonDTO dto) {
 
         Person person = this.persons.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
