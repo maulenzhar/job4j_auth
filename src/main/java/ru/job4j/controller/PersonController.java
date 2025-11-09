@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import ru.job4j.domain.Person;
+import ru.job4j.dto.PersonDTO;
 import ru.job4j.repository.PersonRepository;
 
 import java.util.ArrayList;
@@ -54,4 +55,24 @@ public class PersonController {
         this.persons.delete(person);
         return ResponseEntity.ok().build();
     }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Person> patchPerson(
+            @PathVariable int id,
+            @RequestBody PersonDTO dto) {
+
+        Person person = this.persons.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        if (dto.getLogin() != null) {
+            person.setLogin(dto.getLogin());
+        }
+        if (dto.getPassword() != null) {
+            person.setPassword(dto.getPassword());
+        }
+
+        Person updated = this.persons.save(person);
+        return ResponseEntity.ok(updated);
+    }
+
 }
